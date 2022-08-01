@@ -12,10 +12,9 @@ app.use(cors());
 app.use(compression());
 app.use(helmet());
 
-app.use(auth);
 const port = 4000;
 
-app.get("/api/todos", async (req, res) => {
+app.get("/api/todos", auth, async (req, res) => {
 	try {
 		const query = db.collection("videos");
 		let response = [];
@@ -35,6 +34,10 @@ app.get("/api/todos", async (req, res) => {
 	}
 
 	// console.log("token", token);
+});
+
+app.get("/", (req, res) => {
+	return res.send("Hi welcome to video library api");
 });
 
 app.listen(process.env.PORT || port, () => {
